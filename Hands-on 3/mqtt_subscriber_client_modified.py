@@ -52,7 +52,7 @@ sub_topic= "IOT/home/sensor/4111"
 
 client.loop_start()  #Start loop
 ### part for your change
-client.subscribe(sub_topic,qos=1)
+client.subscribe(sub_topic,qos=0)
 ##client.publish("house/sensor1","my first message")
 ##
 time.sleep(10)

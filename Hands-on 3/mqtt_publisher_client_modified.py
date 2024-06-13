@@ -37,7 +37,7 @@ client.connect(broker,port)     #connect to broker
 pub_topic= "IOT/home/sensor/4111"
 
 # Next 2 loops will publishing 40 messages to one topic(house) and 2 subtopics(sensor_0 and sensor_1)
-client.publish(pub_topic,"test message 16",1,True)
+client.publish(pub_topic,"test message number 5",0,True)
 # for j in range(2):
 #         for i in range(20):
 #              client.publish("matzi/house/sensor_"+str(j),"my  "+str(i)+" message")
@@ -55,4 +55,6 @@ print("End publish_client run script")
 ##
 ##time.sleep(2)
 ##client.loop_stop()    #Stop loop 
+# client.publish(pub_topic,None,1,True)
 client.disconnect() # disconnect
+
