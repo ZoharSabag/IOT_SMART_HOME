@@ -258,92 +258,37 @@ if __name__ == '__main__':
     if db_init:
         init_db(db_name)
         # insertion init IOT dataset    
-        numb =create_IOT_dev('airconditioner', 'off', 'celcius', timestamp(), 300, 'New York, Park Avenu 221', 'apartment 34', 'Living Room', 'west wall', 'airconditioner', 'false', 'cooling', 'mode', 'fan', '32', comm_topic+'air-1/pub', comm_topic+'air-1/sub', 'changed')
         numb =create_IOT_dev('DHT-1', 'on', 'celcius', timestamp(), 300, 'address', 'building', 'room', 'placed', 'detector', 'enabled', 'state', 'mode', 'fan', 'temperature', comm_topic+'DHT-1/pub', comm_topic+'DHT-1/sub', 'done')
         numb =create_IOT_dev('DHT-2', 'on', 'celcius', timestamp(), 300, 'address', 'building', 'room', 'placed', 'detector', 'enabled', 'state', 'mode', 'fan', 'temperature', comm_topic+'DHT-2/pub', comm_topic+'DHT-2/sub', 'done')
-        numb =create_IOT_dev('WaterMeter', 'on', 'm3', timestamp(), 3600, 'address', 'building', 'room', 'placed', 'meter', 'enabled', 'state', 'mode', 'fan', 'NA', comm_topic+'waterMeter/pub', comm_topic+'waterMeter/sub', 'done')
-        numb =create_IOT_dev('ElecMeter', 'on', 'kWh', timestamp(), 3600, 'address', 'building', 'room', 'placed', 'meter', 'enabled', 'state', 'mode', 'fan', 'NA', comm_topic+'elecMeter/pub', comm_topic+'elecMeter/sub', 'done')
-        numb =create_IOT_dev('Boiler', 'off', 'celcius', timestamp(), 600, 'address', 'building', 'room', 'placed', 'actuator-detector', 'enabled', 'state', 'mode', 'fan', '85', comm_topic+'boiler/pub', comm_topic+'boiler/sub', 'done')
+        numb =create_IOT_dev('DHT-3', 'on', 'celcius', timestamp(), 300, 'address', 'building', 'room', 'placed', 'detector', 'enabled', 'state', 'mode', 'fan', 'temperature', comm_topic+'DHT-3/pub', comm_topic+'DHT-3/sub', 'done')
+        numb =create_IOT_dev('DHT-4', 'on', 'celcius', timestamp(), 300, 'address', 'building', 'room', 'placed', 'detector', 'enabled', 'state', 'mode', 'fan', 'temperature', comm_topic+'DHT-4/pub', comm_topic+'DHT-4/sub', 'done')
         
         # add initial row data to all IOT devices:
-        # water and elecricity consumption:
+
+        rez_dht1 = filter_by_date('data', '2021-05-16', '2021-05-18', 'DHT-1')
+        rez_dht2 = filter_by_date('data', '2021-05-16', '2021-05-18', 'DHT-2')
         
-        start_water =  437.4
-        start_el = 162040
-        hour_delta_w = 0.42/48
-        hour_delta_el = (670/17)/48
-        current_w = start_water
-        current_el = start_el 
-        for d in range(15,30):
-            if d%7==0:hour_delta_el =(670/17)/12
-            if d%6==0:hour_delta_el =(670/17)/18
-            for h in range(0,23):
-                current_w  = hour_delta_w + random.randrange(0,30)/60
-                current_el  = hour_delta_el + random.randrange(0,50)/100
-                # current_w  += hour_delta_w + random.randrange(-1,10)/40
-                # current_el  += hour_delta_el + random.randrange(-1,10)/40
-                add_IOT_data('WaterMeter', '2021-05-'+ str(d+1) + ' ' + str(h) + ':30:00', current_w)
-                add_IOT_data('ElecMeter', '2021-05-'+ str(d+1) + ' ' + str(h) + ':30:11', current_el)
+        temperature_dht1 = []  
+        timenow_dht1 = []
 
-    
-    rez= filter_by_date('data','2021-05-16','2021-05-18', 'ElecMeter')
-    print(rez)
-    # df = fetch_data(db_name,'data', 'WaterMeter')
-    # ic2(df.head())
+        for row in rez_dht1:
+            timenow_dht1.append(row[1])
+            temperature_dht1.append("{:.2f}".format(float(row[2])))
 
-    temperature = []  
-    timenow = []
+        plt.plot_date(timenow_dht1, temperature_dht1, '-', label='DHT-1')
 
-    for row in rez:
-        timenow.append(row[1])
-        temperature.append("{:.2f}".format(float(row[2])))
+        # Plotting DHT-2 temperature data
+        temperature_dht2 = []  
+        timenow_dht2 = []
 
-    plt.plot_date(timenow,temperature,'-')
-    plt.show()
+        for row in rez_dht2:
+            timenow_dht2.append(row[1])
+            temperature_dht2.append("{:.2f}".format(float(row[2])))
 
-    # #df.timestamp=pd.to_numeric(df.timestamp)
-    # df.value=pd.to_numeric(df.value)
-    # ic2(len(df.value))
-    # ic2(df.value[len(df.value)-1])
-    # ic2(max(df.value))
-    # #ic2(df.timestamp)
+        plt.plot_date(timenow_dht2, temperature_dht2, '-', label='DHT-2')
 
-    # df.plot(x='timestamp',y='value')
-
-    
-    # # fig, axes = plt.subplots (2,1)
-    # # # Draw a horizontal bar graph and a vertical bar graph
-    # # df.plot.bar (ax = axes [0])
-    # # df.plot.barh (ax = axes [1])
-    # plt.show()
-
-        #df.plot('name','value')
-        # to plot per measuremnt
-        # for measurement in df.MEASUREMENT.unique():
-        #     df[df.MEASUREMENT == measurement].plot("READ_TIME", "VALUE")
-            #pylab.savefig(f"{measurement}.png")
-            #pylab.clf()
-    
-    # while False:
-    #     update_IOT_dev(('20','airconditioner'))
-    #     tm.sleep(30)
-    #     update_IOT_dev(('22','airconditioner'))
-    #     tm.sleep(30)
-    # #numb =add_IOT_data('DTH-1', timestamp(), 27)
-    #ic2(numb)
-
-    #rows = read_IOT_data('data', 1)    
-    #for row in rows:
-    #ic2(rows[-1][2])
-    #update_IOT_dev(('538','DHT-1'))
-    # rrows = check_changes('iot_devices')
-    # for row in rrows:
-    #     ic2(row)
-
-
-
-
-# if __name__ == "__main__":    
-#     data = acq_data()
-#     # Preview the first 5 lines of the loaded data 
-#     ic2(data.head())
+        plt.legend()
+        plt.xlabel('Timestamp')
+        plt.ylabel('Temperature (°C)')
+        plt.title('Temperature Data for DHT-1 and DHT-2')
+        plt.show()
