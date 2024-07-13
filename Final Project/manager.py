@@ -1,5 +1,5 @@
-# intended to manage the Smart Home system
-# insert data to Smart home DB
+# intended to manage the MediSafe system
+# insert data to MediSafe DB
 
 import paho.mqtt.client as mqtt
 # import os

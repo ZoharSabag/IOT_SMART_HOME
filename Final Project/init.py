@@ -12,12 +12,6 @@ port=ports[nb]
 username = usernames[nb]
 password = passwords[nb]
 conn_time = 0 # 0 stands for endless
-# mzs=['matzi/','']
-# sub_topics =[mzs[nb]+'#','#']
-# pub_topics = [mzs[nb]+'test', 'test']
-# ext_man = mzs[nb]+'system/command'
-# sub_topic = [mzs[nb]+'bearer/accel/status', mzs[nb]+'bearer/belt/status']
-# pub_topic = mzs[nb]+'system/state'
 msg_system = ['normal', 'issue','No issue']
 wait_time = 5
 
@@ -25,14 +19,10 @@ broker_ip=brokers[nb]
 broker_port=ports[nb]
 username = usernames[nb]
 password = passwords[nb]
-# sub_topic = sub_topics[nb]
-# pub_topic = pub_topics[nb]
 
 # Common
 conn_time = 0 # 0 stands for endless loop
 comm_topic = 'pr/Smart/'
-#comm_topic = 'pr/Smart/Home/'
-
 
 # FFT module init data
 isplot = False
@@ -49,9 +39,16 @@ acqtime = 60.0 # sec
 manag_time = 10 # sec
 
 # DB init data 
-db_name = 'data\\homedata_05_2.db' # SQLite
+db_name = 'data\\MediSafe_data.db' # SQLite
 db_init =  False   #False # True if we need reinit smart home setup
 
 # Meters consuption limits"
 Water_max=0.02
 Elec_max=1.8
+
+# Limits
+Temperature_min=10
+Temperature_max=25
+
+Humidity_min=70
+Humidity_max=80
