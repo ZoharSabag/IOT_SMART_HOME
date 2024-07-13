@@ -37,6 +37,7 @@ def on_message(client, userdata, msg):
     m_decode=str(msg.payload.decode("utf-8","ignore"))
     ic("message from: " + topic, m_decode)
     insert_DB(topic, m_decode)
+    check_limits_and_alert(client, topic, m_decode)
 
 def send_msg(client, topic, message):
     ic("Sending message: " + message)
@@ -63,18 +64,32 @@ def insert_DB(topic, m_decode):
     if 'DHT' in m_decode: 
         value=parse_data(m_decode)
         if value != 'NA':
-            da.add_IOT_data(m_decode.split('From: ')[1].split(' Temperature: ')[0], da.timestamp(), value)
-            # TODO - update IOT device last_updated         
-    # Elec Meter case:
-    elif 'Meter' in m_decode:        
-        da.add_IOT_data('ElectricityMeter', da.timestamp(), m_decode.split(' Electricity: ')[1].split(' Water: ')[0])
-        da.add_IOT_data('WaterMeter', da.timestamp(), m_decode.split(' Water: ')[1])
+            da.add_IOT_data(m_decode.split('From: ')[1].split(' Temperature: ')[0], da.timestamp(), value)       
 
 def parse_data(m_decode):
     value = 'NA'
     # 'From: ' + self.name+ ' Temperature: '+str(temp)+' Humidity: '+str(hum)
     value = m_decode.split(' Temperature: ')[1].split(' Humidity: ')[0]
     return value
+
+def check_limits_and_alert(client, topic, m_decode):
+    data = parse_data(m_decode)
+    if data != 'NA':
+        temp = data['temperature']
+        hum = data['humidity']
+        
+        alert_message = ""
+        
+        if temp < Temperature_min or temp > Temperature_max:
+            alert_message += f"Temperature out of range: {temp}C. "
+        
+        if hum < Humidity_min or hum > Humidity_max:
+            alert_message += f"Humidity out of range: {hum}%. "
+        
+        if alert_message:
+            alert_message = f"Alert from {topic}: " + alert_message
+            client.publish(comm_topic + 'alert', alert_message)
+            ic("Alert published: ", alert_message)
 
 def enable(client, topic, msg):
     ic(topic+' '+msg)

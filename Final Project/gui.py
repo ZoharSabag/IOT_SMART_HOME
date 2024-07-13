@@ -68,26 +68,16 @@ class MC(Mqtt_client):
             topic=msg.topic            
             m_decode=str(msg.payload.decode("utf-8","ignore"))
             ic("message from:"+topic, m_decode)
-            if 'Room_1' in topic:
-                mainwin.airconditionDock.update_temp_Room(check(m_decode.split('Temperature: ')[1].split(' Humidity: ')[0]))
-            if 'Common' in topic:            
-                mainwin.airconditionDock.update_temp_Room(check(m_decode.split('Temperature: ')[1].split(' Humidity: ')[0]))
-            if 'Home' in topic:               
-                if WatMet:
-                    mainwin.graphsDock.update_electricity_meter(check(m_decode.split('Electricity: ')[1].split(' Water: ')[0]))
-                    WatMet = False
-                else:
-                    mainwin.graphsDock.update_water_meter(check(m_decode.split(' Water: ')[1]))
-                    WatMet = True
             if 'alarm' in topic:            
                 mainwin.statusDock.update_mess_win(da.timestamp()+': ' + m_decode)
-            if 'boiler' in topic:
-                mainwin.statusDock.boilerTemp.setText(check(m_decode.split('Temperature: ')[1]))
-            if 'freezer' in topic:
-                mainwin.statusDock.freezerTemp.setText(check(m_decode.split('Temperature: ')[1]))
-            if 'refrigerator' in topic:
-                mainwin.statusDock.fridgeTemp.setText(check(m_decode.split('Temperature: ')[1]))    
-
+            if 'Storage_1' in topic:
+                mainwin.airconditionDock.update_temp_Room(check(m_decode.split('Temperature: ')[1].split(' Humidity: ')[0]))
+            if 'Storage_2' in topic:
+                mainwin.airconditionDock.update_temp_Room(check(m_decode.split('Temperature: ')[1].split(' Humidity: ')[0]))
+            if 'Storage_3' in topic:
+                mainwin.airconditionDock.update_temp_Room(check(m_decode.split('Temperature: ')[1].split(' Humidity: ')[0]))
+            if 'Storage_4' in topic:
+                mainwin.airconditionDock.update_temp_Room(check(m_decode.split('Temperature: ')[1].split(' Humidity: ')[0]))
 
    
 class ConnectionDock(QDockWidget):

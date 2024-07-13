@@ -22,7 +22,7 @@ password = passwords[nb]
 
 # Common
 conn_time = 0 # 0 stands for endless loop
-comm_topic = 'pr/Smart/'
+comm_topic = 'pr/MediSafe/'
 
 # FFT module init data
 isplot = False
@@ -46,9 +46,8 @@ db_init =  False   #False # True if we need reinit smart home setup
 Water_max=0.02
 Elec_max=1.8
 
-# Limits
-Temperature_min=10
-Temperature_max=25
-
-Humidity_min=70
-Humidity_max=80
+# Define the limits for temperature and humidity
+Temperature_min = 4  # Minimum temperature in Celsius
+Temperature_max = 24  # Maximum temperature in Celsius
+Humidity_min = 50    # Minimum humidity in percentage
+Humidity_max = 80    # Maximum humidity in percentage
